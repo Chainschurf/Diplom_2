@@ -1,0 +1,11 @@
+Test 'test_create_order_authorized_invalid_ingredient_hash': Response Body (HTML): <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Internal Server Error</pre>
+</body>
+</html>
+
