@@ -1,13 +1,13 @@
 import requests
 import allure
-from data import Endpoints
+from data import Endpoints, ErrorMessages
 
 
 @allure.suite("User Login Tests")
 @allure.title("Test User Login")
 class TestUserLogin:
 
-    @allure.step("Test successful login for an existing user")
+    @allure.title("Test successful login for an existing user")
     def test_login_successfully(self, config, create_registered_user):
         url = f"{config}{Endpoints.LOGIN}"
         user_data = {
@@ -23,7 +23,7 @@ class TestUserLogin:
         assert "accessToken" in response_data, "Response should contain accessToken"
         assert "refreshToken" in response_data, "Response should contain refreshToken"
 
-    @allure.step("Test login with incorrect credentials")
+    @allure.title("Test login with incorrect credentials")
     def test_login_with_incorrect_credentials(self, config):
         url = f"{config}{Endpoints.LOGIN}"
         user_data = {
@@ -35,5 +35,5 @@ class TestUserLogin:
         response_data = response.json()
 
         assert response.status_code == 401, "Expected status code 401 for incorrect credentials"
-        assert response_data['message'] == "email or password are incorrect", \
+        assert response_data['message'] == ErrorMessages.INVALID_CREDENTIALS, \
             "Expected error message for incorrect credentials"

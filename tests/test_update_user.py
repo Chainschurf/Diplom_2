@@ -1,6 +1,6 @@
 import requests
 import allure
-from data import Endpoints
+from data import Endpoints, ErrorMessages
 from helpers import get_sign_up_data
 
 
@@ -8,7 +8,7 @@ from helpers import get_sign_up_data
 @allure.title("Test Update User")
 class TestUpdateUser:
 
-    @allure.step("Test updating user data with authorization")
+    @allure.title("Test updating user data with authorization")
     def test_update_user_authorized(self, config, create_registered_user):
         user_url = f"{config}{Endpoints.USER}"
         access_token = create_registered_user['accessToken']
@@ -31,7 +31,7 @@ class TestUpdateUser:
         assert response_data['user']['name'] == updated_data['name'], "User name should be updated"
         assert response_data['user']['email'] == updated_data['email'], "User email should be updated"
 
-    @allure.step("Test updating user data without authorization")
+    @allure.title("Test updating user data without authorization")
     def test_update_user_unauthorized(self, config):
         user_url = f"{config}{Endpoints.USER}"
         updated_data = {
@@ -42,5 +42,6 @@ class TestUpdateUser:
         response_data = response.json()
 
         assert response.status_code == 401, f"Expected status code 401 for unauthorized update, but got {response.status_code}"
-        assert response_data['message'] == "You should be authorised", "Expected error message for unauthorized access"
+        assert response_data['message'] == ErrorMessages.UNAUTHORIZED_ACCESS, \
+            "Expected error message for unauthorized access"
 
